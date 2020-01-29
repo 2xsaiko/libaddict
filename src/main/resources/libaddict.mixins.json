@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "net.dblsaiko.libaddict.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "TranslationStorageMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
