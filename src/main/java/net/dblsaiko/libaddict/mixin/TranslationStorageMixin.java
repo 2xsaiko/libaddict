@@ -34,14 +34,17 @@ public class TranslationStorageMixin {
 
     @Inject(
         method = "load(Lnet/minecraft/resource/ResourceManager;Ljava/util/List;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resource/language/TranslationStorage;load(Ljava/util/List;)V", shift = Shift.AFTER),
-        locals = LocalCapture.CAPTURE_FAILHARD
+        at = @At(value = "RETURN")
     )
-    private void load(ResourceManager container, List<String> list, CallbackInfo ci, Iterator<String> var3, String language, String string2, Iterator<String> var6, String namespace) {
-        Identifier id = new Identifier(namespace, String.format("lang/%s.str", language));
-        Map<String, ParameterizedString> newEntries = Parser.include(container, id);
-        newEntries.keySet().forEach(k -> translations.remove(k));
-        translations2.putAll(newEntries);
+    private void load(ResourceManager container, List<String> list, CallbackInfo ci) {
+        for (String language : list) {
+            for (String namespace : container.getAllNamespaces()) {
+                Identifier id = new Identifier(namespace, String.format("lang/%s.str", language));
+                Map<String, ParameterizedString> newEntries = Parser.include(container, id);
+                newEntries.keySet().forEach(k -> translations.remove(k));
+                translations2.putAll(newEntries);
+            }
+        }
     }
 
     @Inject(
