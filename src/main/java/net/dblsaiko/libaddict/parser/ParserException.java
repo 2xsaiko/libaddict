@@ -1,4 +1,4 @@
-package net.dblsaiko.libaddict;
+package net.dblsaiko.libaddict.parser;
 
 import net.minecraft.util.Identifier;
 

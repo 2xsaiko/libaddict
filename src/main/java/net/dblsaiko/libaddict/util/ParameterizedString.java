@@ -1,8 +1,9 @@
-package net.dblsaiko.libaddict;
+package net.dblsaiko.libaddict.util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PrimitiveIterator;
+import java.util.stream.Collectors;
 
 public class ParameterizedString {
 
@@ -75,6 +76,10 @@ public class ParameterizedString {
             components.add(PStringComponent.verbatim(curStr));
         }
         return new ParameterizedString(components);
+    }
+
+    public String asString() {
+        return components.stream().map(PStringComponent::asString).collect(Collectors.joining());
     }
 
 }

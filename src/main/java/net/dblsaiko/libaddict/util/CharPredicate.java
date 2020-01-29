@@ -1,4 +1,4 @@
-package net.dblsaiko.libaddict;
+package net.dblsaiko.libaddict.util;
 
 @FunctionalInterface
 public interface CharPredicate {

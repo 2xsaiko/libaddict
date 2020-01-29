@@ -23,14 +23,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.dblsaiko.libaddict.ParameterizedString;
-import net.dblsaiko.libaddict.Parser;
+import net.dblsaiko.libaddict.ext.TranslationStorageExt;
+import net.dblsaiko.libaddict.parser.Parser;
+import net.dblsaiko.libaddict.util.ParameterizedString;
 
 @Mixin(TranslationStorage.class)
-public class TranslationStorageMixin {
+public class TranslationStorageMixin implements TranslationStorageExt {
 
     @Shadow @Final protected Map<String, String> translations;
     private Map<String, ParameterizedString> translations2 = new HashMap<>();
+
+    public Map<String, ParameterizedString> getExtendedTranslations() {
+        return translations2;
+    }
 
     @Inject(
         method = "load(Lnet/minecraft/resource/ResourceManager;Ljava/util/List;)V",

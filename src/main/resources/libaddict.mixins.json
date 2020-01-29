@@ -5,6 +5,8 @@
   "mixins": [
   ],
   "client": [
+    "LanguageManagerMixin",
+    "LanguageMixin",
     "TranslationStorageMixin"
   ],
   "injectors": {

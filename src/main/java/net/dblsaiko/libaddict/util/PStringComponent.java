@@ -1,8 +1,10 @@
-package net.dblsaiko.libaddict;
+package net.dblsaiko.libaddict.util;
 
 public interface PStringComponent {
 
     void fmt(StringBuilder sb, Object[] params);
+
+    String asString();
 
     static Verbatim verbatim(String value) {
         return new Verbatim(value);
@@ -25,6 +27,11 @@ public interface PStringComponent {
             sb.append(value);
         }
 
+        @Override
+        public String asString() {
+            return value;
+        }
+
     }
 
     class Variable implements PStringComponent {
@@ -38,6 +45,11 @@ public interface PStringComponent {
         @Override
         public void fmt(StringBuilder sb, Object[] params) {
             sb.append(params[idx].toString());
+        }
+
+        @Override
+        public String asString() {
+            return String.format("{%d}", idx);
         }
 
     }

@@ -1,4 +1,4 @@
-package net.dblsaiko.libaddict;
+package net.dblsaiko.libaddict.parser;
 
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -24,8 +24,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.dblsaiko.libaddict.ParserException.ErrorType;
-import net.dblsaiko.libaddict.ParserException.Trace;
+import net.dblsaiko.libaddict.parser.ParserException.ErrorType;
+import net.dblsaiko.libaddict.parser.ParserException.Trace;
+import net.dblsaiko.libaddict.util.CharPredicate;
+import net.dblsaiko.libaddict.util.ParameterizedString;
 
 public class Parser {
     public static Map<String, ParameterizedString> include(ResourceManager container, Identifier id) {
