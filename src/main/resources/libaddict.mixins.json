@@ -2,11 +2,9 @@
   "required": true,
   "package": "net.dblsaiko.libaddict.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
+  "mixins": [],
   "client": [
-    "LanguageManagerMixin",
-    "LanguageMixin",
+    "I18nMixin",
     "TranslationStorageMixin"
   ],
   "injectors": {
