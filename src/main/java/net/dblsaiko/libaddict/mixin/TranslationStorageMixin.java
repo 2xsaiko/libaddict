@@ -5,12 +5,14 @@ import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,6 +28,7 @@ public class TranslationStorageMixin implements TranslationStorageExt {
 
     @Shadow
     @Final
+    @Mutable
     private Map<String, String> translations;
     private final Map<String, ParameterizedString> translations2 = new HashMap<>();
 
@@ -38,16 +41,19 @@ public class TranslationStorageMixin implements TranslationStorageExt {
         at = @At(value = "RETURN"),
         locals = LocalCapture.CAPTURE_FAILHARD
     )
-    private static void load(ResourceManager resourceManager, List<LanguageDefinition> list, CallbackInfoReturnable<TranslationStorage> cir, Map<String, String> map) {
-        Map<String, ParameterizedString> translations2 = ((TranslationStorageMixin) (Object) cir.getReturnValue()).translations2;
+    private static void load(ResourceManager resourceManager, List<LanguageDefinition> list, CallbackInfoReturnable<TranslationStorage> cir) {
+        TranslationStorageMixin rv = (TranslationStorageMixin) (Object) cir.getReturnValue();
+        Map<String, String> translations = new HashMap<>(rv.translations); // this is immutable
+        Map<String, ParameterizedString> translations2 = rv.translations2;
         for (LanguageDefinition language : list) {
             for (String namespace : resourceManager.getAllNamespaces()) {
                 Identifier id = new Identifier(namespace, String.format("lang/%s.str", language.getCode()));
                 Map<String, ParameterizedString> newEntries = Parser.include(resourceManager, id);
-                newEntries.forEach((k, v) -> map.put(k, v.asString()));
+                newEntries.forEach((k, v) -> translations.put(k, v.asString()));
                 translations2.putAll(newEntries);
             }
         }
+        rv.translations = Collections.unmodifiableMap(translations);
     }
 
 }
